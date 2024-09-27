@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
     });
     res.status(200).json(categories);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(err.message);
   }
 });
 
@@ -63,11 +63,11 @@ router.put('/:id', async(req, res) => {
 // DELETE category
 router.delete('/:id', async (req, res) => {
   try {
-    const Category = await Category.destroy({
+    const category = await Category.destroy({
       where: { id: req.params.id },
     });
 
-    if (!Category) {
+    if (!category) {
       return res.status(404).json({ message: 'No category found with this id!' });
     }
 

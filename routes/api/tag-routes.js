@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
     });
     res.status(200).json(tags);
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json(err.message);
   }
 });
 
@@ -22,7 +22,7 @@ router.get('/:id', async (req, res) => {
       include: [{ model: Product, through: ProductTag }],
     });
 
-    if (!tags) {
+    if (!tag) {
       return res.status(404).json({ message: 'No tag found with this id' });
     }
 
@@ -62,11 +62,11 @@ router.put('/:id', async (req, res) => {
 //DELETE tag
 router.delete('/:id', async (req, res) => {
   try {
-    const Tag = await Tag.destroy({
+    const deletedTag = await Tag.destroy({
       where: { id: req.params.id },
     });
 
-    if (!Tag) {
+    if (!deletedTag) {
       return res.status(404).json({ message: 'No tag found with this id!' });
     }
 
